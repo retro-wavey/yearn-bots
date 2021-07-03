@@ -40,7 +40,10 @@ let recurring_job = cron.schedule("* * * * *", () => {
                 console.log(balance)
                 console.log("---")
             }).catch(err => console.log(err))
-        };
+        }
+        else{
+            balance = bal;
+        }
         firstRun = false;
     });
 })
