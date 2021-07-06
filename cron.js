@@ -34,12 +34,12 @@ let recurring_job = cron.schedule("* * * * *", () => {
             }).catch(err => console.log(err))
 
             // send to ySupport
-            url = `https://api.telegram.org/${token}/sendMessage?chat_id=${ySupportChatId}&text=${message}&parse_mode=HTML&disable_web_page_preview=True`
-            axios.post(url).then(r=>{
-                console.log("ySupport group message sent");
-                console.log(balance)
-                console.log("---")
-            }).catch(err => console.log(err))
+            // url = `https://api.telegram.org/${token}/sendMessage?chat_id=${ySupportChatId}&text=${message}&parse_mode=HTML&disable_web_page_preview=True`
+            // axios.post(url).then(r=>{
+            //     console.log("ySupport group message sent");
+            //     console.log(balance)
+            //     console.log("---")
+            // }).catch(err => console.log(err))
         }
         else{
             balance = bal;
