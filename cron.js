@@ -21,11 +21,11 @@ let firstRunSnx = true;
 let recurring_job = cron.schedule("* * * * *", () => {
     console.log("---"+new Date()+"---");
     susd_buffer().then(bal=>{
-        if(bal != firstRunSusd){
+        if(bal != balanceSusd){
         //if(bal != firstRunSusd && !firstRunSusd){
-            diff = bal - firstRunSusd;
-            firstRunSusd = bal;
-            message = "yvSUSD balance: $"+commaNumber((firstRunSusd).toFixed(2))+"\n\n";
+            diff = bal - balanceSusd;
+            balanceSusd = bal;
+            message = "yvSUSD balance: $"+commaNumber((balanceSusd).toFixed(2))+"\n\n";
             message += "Change: $"+commaNumber(diff.toFixed(2))+"\n\n";
             message += "https://etherscan.io/address/0xa5cA62D95D24A4a350983D5B8ac4EB8638887396";
             console.log(message)
@@ -34,7 +34,7 @@ let recurring_job = cron.schedule("* * * * *", () => {
             let url = `https://api.telegram.org/${token}/sendMessage?chat_id=${susdChatId}&text=${message}&parse_mode=HTML&disable_web_page_preview=True`
             axios.post(url).then(r=>{
                 console.log("SUSD group message sent");
-                console.log(firstRunSusd)
+                console.log(balanceSusd)
                 console.log("---")
             }).catch(err => console.log(err))
 
@@ -47,7 +47,7 @@ let recurring_job = cron.schedule("* * * * *", () => {
             // }).catch(err => console.log(err))
         }
         else{
-            firstRunSusd = bal;
+            balanceSusd = bal;
         }
         firstRunSusd = false;
     });
