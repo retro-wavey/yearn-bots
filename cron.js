@@ -22,7 +22,7 @@ let recurring_job = cron.schedule("* * * * *", () => {
     console.log("---"+new Date()+"---");
     susd_buffer().then(bal=>{
         //if(bal != balanceSusd){
-        if(bal != firstRunSusd && !firstRunSusd){
+        if(bal != balanceSusd && !firstRunSusd){
             diff = bal - balanceSusd;
             balanceSusd = bal;
             message = "yvSUSD balance: $"+commaNumber((balanceSusd).toFixed(2))+"\n\n";
