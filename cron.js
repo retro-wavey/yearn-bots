@@ -12,18 +12,20 @@ let devChatId = process.env.TELEGRAM_DEV_MONITORING_CHAT_ID;
 let susdChatId = process.env.TELEGRAM_SUSD_CHAT_ID;
 let ySupportChatId = process.env.TELEGRAM_YSUPPORT_CHAT_ID;
 
-let balance = 0;
+let balanceSusd = 0;
+let balanceSnx = 0;
+
 let firstRunSusd = true;
 let firstRunSnx = true;
 
 let recurring_job = cron.schedule("* * * * *", () => {
     console.log("---"+new Date()+"---");
     susd_buffer().then(bal=>{
-        if(bal != balance){
-        //if(bal != balance && !firstRunSusd){
-            diff = bal - balance;
-            balance = bal;
-            message = "yvSUSD balance: $"+commaNumber((balance).toFixed(2))+"\n\n";
+        if(bal != firstRunSusd){
+        //if(bal != firstRunSusd && !firstRunSusd){
+            diff = bal - firstRunSusd;
+            firstRunSusd = bal;
+            message = "yvSUSD balance: $"+commaNumber((firstRunSusd).toFixed(2))+"\n\n";
             message += "Change: $"+commaNumber(diff.toFixed(2))+"\n\n";
             message += "https://etherscan.io/address/0xa5cA62D95D24A4a350983D5B8ac4EB8638887396";
             console.log(message)
@@ -32,7 +34,7 @@ let recurring_job = cron.schedule("* * * * *", () => {
             let url = `https://api.telegram.org/${token}/sendMessage?chat_id=${susdChatId}&text=${message}&parse_mode=HTML&disable_web_page_preview=True`
             axios.post(url).then(r=>{
                 console.log("SUSD group message sent");
-                console.log(balance)
+                console.log(firstRunSusd)
                 console.log("---")
             }).catch(err => console.log(err))
 
@@ -40,21 +42,21 @@ let recurring_job = cron.schedule("* * * * *", () => {
             // url = `https://api.telegram.org/${token}/sendMessage?chat_id=${ySupportChatId}&text=${message}&parse_mode=HTML&disable_web_page_preview=True`
             // axios.post(url).then(r=>{
             //     console.log("ySupport group message sent");
-            //     console.log(balance)
+            //     console.log(firstRunSusd)
             //     console.log("---")
             // }).catch(err => console.log(err))
         }
         else{
-            balance = bal;
+            firstRunSusd = bal;
         }
         firstRunSusd = false;
     });
     snx_buffer().then(bal=>{
-        if(bal != balance){
+        if(bal != balanceSnx){
         //if(bal != balance && !firstRunSnx){
-            diff = bal - balance;
-            balance = bal;
-            message = "yvSNX balance: "+commaNumber((balance).toFixed(2))+" SNX\n\n";
+            diff = bal - balanceSnx;
+            balanceSnx = bal;
+            message = "yvSNX balance: "+commaNumber((balanceSnx).toFixed(2))+" SNX\n\n";
             message += "Change: "+commaNumber(diff.toFixed(2))+" SNX\n\n";
             message += "https://etherscan.io/address/0xF29AE508698bDeF169B89834F76704C3B205aedf";
             console.log(message)
@@ -63,12 +65,12 @@ let recurring_job = cron.schedule("* * * * *", () => {
             let url = `https://api.telegram.org/${token}/sendMessage?chat_id=${susdChatId}&text=${message}&parse_mode=HTML&disable_web_page_preview=True`
             axios.post(url).then(r=>{
                 console.log("SNX group message sent");
-                console.log(balance)
+                console.log(balanceSnx)
                 console.log("---")
             }).catch(err => console.log(err))
         }
         else{
-            balance = bal;
+            balanceSnx = bal;
         }
         firstRunSnx = false;
     });
