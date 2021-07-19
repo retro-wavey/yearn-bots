@@ -21,8 +21,8 @@ let firstRunSnx = true;
 let recurring_job = cron.schedule("* * * * *", () => {
     console.log("---"+new Date()+"---");
     susd_buffer().then(bal=>{
-        if(bal != balanceSusd){
-        //if(bal != firstRunSusd && !firstRunSusd){
+        //if(bal != balanceSusd){
+        if(bal != firstRunSusd && !firstRunSusd){
             diff = bal - balanceSusd;
             balanceSusd = bal;
             message = "yvSUSD balance: $"+commaNumber((balanceSusd).toFixed(2))+"\n\n";
@@ -52,8 +52,8 @@ let recurring_job = cron.schedule("* * * * *", () => {
         firstRunSusd = false;
     });
     snx_buffer().then(bal=>{
-        if(bal != balanceSnx){
-        //if(bal != balance && !firstRunSnx){
+        //if(bal != balanceSnx){
+        if(bal != balance && !firstRunSnx){
             diff = bal - balanceSnx;
             balanceSnx = bal;
             message = "yvSNX balance: "+commaNumber((balanceSnx).toFixed(2))+" SNX\n\n";
