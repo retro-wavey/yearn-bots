@@ -1,6 +1,7 @@
 const cron = require('node-cron');
 const moment = require('moment');
 const susd_buffer = require('./susd_buffer.js');
+const snx_buffer = require('./snx_buffer.js');
 const axios = require('axios');
 const commaNumber = require('comma-number');
 require('dotenv').config();
@@ -12,12 +13,13 @@ let susdChatId = process.env.TELEGRAM_SUSD_CHAT_ID;
 let ySupportChatId = process.env.TELEGRAM_YSUPPORT_CHAT_ID;
 
 let balance = 0;
-let firstRun = true;
+let firstRunSusd = true;
+let firstRunSnx = true;
 
 let recurring_job = cron.schedule("* * * * *", () => {
     console.log("---"+new Date()+"---");
     susd_buffer().then(bal=>{
-        if(bal != balance && !firstRun){
+        if(bal != balance && !firstRunSusd){
             diff = bal - balance;
             balance = bal;
             message = "yvSUSD balance: $"+commaNumber((balance).toFixed(2))+"\n\n";
@@ -44,6 +46,28 @@ let recurring_job = cron.schedule("* * * * *", () => {
         else{
             balance = bal;
         }
-        firstRun = false;
+        firstRunSusd = false;
+    });
+    snx_buffer().then(bal=>{
+        if(bal != balance && !firstRunSnx){
+            diff = bal - balance;
+            balance = bal;
+            message = "yvSNX balance: "+commaNumber((balance).toFixed(2))+" SNX\n\n";
+            message += "Change: "+commaNumber(diff.toFixed(2))+" SNX\n\n";
+            message += "https://etherscan.io/address/0xF29AE508698bDeF169B89834F76704C3B205aedf";
+            console.log(message)
+
+            // send to yvSUSD TG group
+            let url = `https://api.telegram.org/${token}/sendMessage?chat_id=${susdChatId}&text=${message}&parse_mode=HTML&disable_web_page_preview=True`
+            axios.post(url).then(r=>{
+                console.log("SNX group message sent");
+                console.log(balance)
+                console.log("---")
+            }).catch(err => console.log(err))
+        }
+        else{
+            balance = bal;
+        }
+        firstRunSusd = false;
     });
 })
