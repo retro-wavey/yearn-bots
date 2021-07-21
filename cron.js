@@ -53,7 +53,7 @@ let recurring_job = cron.schedule("* * * * *", () => {
     });
     snx_buffer().then(bal=>{
         //if(bal != balanceSnx){
-        if(bal != balance && !firstRunSnx){
+        if(bal != balanceSnx && !firstRunSnx){
             diff = bal - balanceSnx;
             balanceSnx = bal;
             message = "yvSNX balance: "+commaNumber((balanceSnx).toFixed(2))+" SNX\n\n";
