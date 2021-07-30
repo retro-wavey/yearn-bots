@@ -52,7 +52,6 @@ let recurring_job = cron.schedule("* * * * *", () => {
         firstRunSusd = false;
     });
     snx_buffer().then(bal=>{
-        //if(bal != balanceSnx){
         if(bal != balanceSnx && !firstRunSnx){
             diff = bal - balanceSnx;
             balanceSnx = bal;
