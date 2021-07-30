@@ -15,14 +15,17 @@ let ySupportChatId = process.env.TELEGRAM_YSUPPORT_CHAT_ID;
 let balanceSusd;
 let balanceSnx;
 
-let firstRunSusd = true;
-let firstRunSnx = true;
+let firstRunSusd = false;
+let firstRunSnx = false;
 
 
 console.log("---"+new Date()+"---");
 susd_buffer().then(bal=>{
     //if(bal != balanceSusd){
     if(bal != balanceSusd && !firstRunSusd){
+        if(balanceSusd == undefined){
+            balanceSusd = 0;
+        }
         diff = bal - balanceSusd;
         balanceSusd = bal;
         message = "yvSUSD balance: $"+commaNumber((balanceSusd).toFixed(2))+"\n\n";
@@ -37,7 +40,9 @@ susd_buffer().then(bal=>{
 });
 snx_buffer().then(bal=>{
     if(bal != balanceSnx && !firstRunSnx){
-        console.log("SNX RETURN")
+        if(balanceSnx == undefined){
+            balanceSnx = 0;
+        }
         diff = bal - balanceSnx;
         balanceSnx = bal;
         message = "yvSNX balance: "+commaNumber((balanceSnx).toFixed(2))+" SNX\n\n";
