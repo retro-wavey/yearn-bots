@@ -12,8 +12,8 @@ let devChatId = process.env.TELEGRAM_DEV_MONITORING_CHAT_ID;
 let susdChatId = process.env.TELEGRAM_SUSD_CHAT_ID;
 let ySupportChatId = process.env.TELEGRAM_YSUPPORT_CHAT_ID;
 
-let balanceSusd = 0;
-let balanceSnx = 0;
+let balanceSusd;
+let balanceSnx;
 
 let firstRunSusd = false;
 let firstRunSnx = false;
