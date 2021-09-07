@@ -55,7 +55,7 @@ let recurring_job = cron.schedule("* * * * *", () => {
             lastTimeTrue = 0;
         }
         if(message!=""){
-            if(env!="PROD"){
+            if(env=="PROD"){
                 let maker_token = process.env.TELEGRAM_BOT_KEY_MAKER;
                 let maker_chat = process.env.TELEGRAM_CHAT_ID_MAKER;
                 message = encodeURIComponent(message);
@@ -64,9 +64,12 @@ let recurring_job = cron.schedule("* * * * *", () => {
                     console.log("Maker message sent");
                 }).catch(err => console.log(err))
             }
+            else{
+                console.log(message)
+            }
         }
     });
-    
+
     susd_buffer().then(bal=>{
         //if(bal != balanceSusd){
         if(bal != balanceSusd && !firstRunSusd){
