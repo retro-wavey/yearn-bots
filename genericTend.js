@@ -10,7 +10,6 @@ let vaultBalance = 0;
 module.exports = (address) => new Promise ((resolve,reject) => {
     let vaultAbi = JSON.parse(fs.readFileSync(path.normalize(path.dirname(require.main.filename)+'/contract_abis/v2vault.json')));
     let makerAbi = JSON.parse(fs.readFileSync(path.normalize(path.dirname(require.main.filename)+'/contract_abis/makerv2.json')));
-    let vals = JSON.parse(fs.readFileSync(path.normalize(path.dirname(require.main.filename)+'/contract_abis/makerTest.json')));
     let env = process.env.ENVIRONMENT;
     if(env != "PROD"){
         resolve(vals);
