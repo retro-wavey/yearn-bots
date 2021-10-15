@@ -1,6 +1,6 @@
 {
-    "trigger": false,
-    "isBad": false,
+    "trigger": true,
+    "isBad": true,
     "targetRatio": 1,
     "currentRatio": 2
 }
