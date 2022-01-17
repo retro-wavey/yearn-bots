@@ -33,34 +33,34 @@ cron.schedule("* * * * *", async () => {
         
     }
 
-    susd_buffer().then(bal=>{
-        //if(bal != balanceSusd){
-        if(bal != balanceSusd && !firstRunSusd){
-            if(balanceSusd == undefined){
-                balanceSusd = 0;
-            }
-            diff = bal - balanceSusd;
-            balanceSusd = bal;
-            message = "yvSUSD balance: $"+commaNumber((balanceSusd).toFixed(2))+"\n\n";
-            message += "Change: $"+commaNumber(diff.toFixed(2))+"\n\n";
-            message += "https://etherscan.io/address/0xa5cA62D95D24A4a350983D5B8ac4EB8638887396";
-            console.log(message)
+    // susd_buffer().then(bal=>{
+    //     //if(bal != balanceSusd){
+    //     if(bal != balanceSusd && !firstRunSusd){
+    //         if(balanceSusd == undefined){
+    //             balanceSusd = 0;
+    //         }
+    //         diff = bal - balanceSusd;
+    //         balanceSusd = bal;
+    //         message = "yvSUSD balance: $"+commaNumber((balanceSusd).toFixed(2))+"\n\n";
+    //         message += "Change: $"+commaNumber(diff.toFixed(2))+"\n\n";
+    //         message += "https://etherscan.io/address/0xa5cA62D95D24A4a350983D5B8ac4EB8638887396";
+    //         console.log(message)
 
-            // send to yvSUSD TG group
-            let url = `https://api.telegram.org/${token}/sendMessage?chat_id=${susdChatId}&text=${message}&parse_mode=HTML&disable_web_page_preview=True`
-            if(env=="PROD"){
-                axios.post(url).then(r=>{
-                    console.log("SUSD group message sent");
-                    console.log(balanceSusd)
-                    console.log("---")
-                }).catch(err => console.log(err))
-            }
-        }
-        else{
-            balanceSusd = bal;
-        }
-        firstRunSusd = false;
-    });
+    //         // send to yvSUSD TG group
+    //         let url = `https://api.telegram.org/${token}/sendMessage?chat_id=${susdChatId}&text=${message}&parse_mode=HTML&disable_web_page_preview=True`
+    //         if(env=="PROD"){
+    //             axios.post(url).then(r=>{
+    //                 console.log("SUSD group message sent");
+    //                 console.log(balanceSusd)
+    //                 console.log("---")
+    //             }).catch(err => console.log(err))
+    //         }
+    //     }
+    //     else{
+    //         balanceSusd = bal;
+    //     }
+    //     firstRunSusd = false;
+    // });
     snx_buffer().then(bal=>{
         if(bal != balanceSnx && !firstRunSnx){
             if(balanceSnx == undefined){
